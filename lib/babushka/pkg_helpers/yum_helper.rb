@@ -20,6 +20,23 @@ module Babushka
       }
     end
 
+
+    # I just added these two methods. They're untested and I
+    # don't know yum so they're just a starting point.
+
+    def _install! pkgs, opts
+      # For yum, it will probably need to iterate, setting the verb each time.
+      pkgs.all? {|pkg|
+        # This is the same command from PkgHelper#_install!, with 'install' replaced with the call to #install_verb_for.
+        log_shell "Installing #{pkg} via #{manager_key}", "#{pkg_cmd} -y #{install_verb_for(pkg)} #{pkg} #{opts}", :sudo => should_sudo?
+      }
+    end
+
+    def install_verb_for pkg
+      # Some yum-specific check.
+      shell("yum is-this-a-group-package #{pkg}") ? 'groupinstall' : 'install'
+    end
+
   end
   end
 end
