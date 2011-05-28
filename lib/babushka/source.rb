@@ -9,7 +9,7 @@ module Babushka
 
     attr_reader :name, :uri, :repo, :type, :deps, :templates
 
-    delegate :count, :skipped_count, :uncache!, :to => :deps
+    delegate :count, :uncache!, :to => :deps
 
     def self.present
       source_prefix.glob('*').map(&:p).select {|path|
@@ -166,7 +166,7 @@ module Babushka
             end
           end
         }
-        debug "Loaded #{deps.count}#{" and skipped #{skipped_count}" unless skipped_count.zero?} deps from #{path}." unless deps.count.zero?
+        debug "Loaded #{deps.count} deps from #{path}." unless deps.count.zero?
         @loaded = true
       end
     end
